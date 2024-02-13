@@ -1,3 +1,14 @@
+/// Describes the status code of an HTTP response
+/// 
+/// The status code is a 3-digit integer, where the first digit defines the class of response, and the last two digits do not have any categorization role. The status code is used to indicate the result of the HTTP request, and is a required part of the response.
+/// 
+/// # Examples
+/// ```rust
+/// use quickhttp::StatusCode;
+/// 
+/// let status = StatusCode::OK;
+/// assert_eq!(status.to_string(), "200 OK");
+/// ```
 #[derive(Clone, Debug)]
 pub enum StatusCode {
     Continue = 100,

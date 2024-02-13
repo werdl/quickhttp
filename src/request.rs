@@ -4,7 +4,9 @@ use std::{io::{Read, Write}, net::TcpStream};
 use crate::StatusCode;
 use crate::{errors::{Error, RequestError}, response::Response};
 
+/// Describes a valid request
 pub trait ValidRequest {
+    /// Create a new request
     fn new(
         method: String,
         path: String,
@@ -14,9 +16,11 @@ pub trait ValidRequest {
         port: u16,
         http_version: String,
     ) -> Self;
+    /// Send the request synchronously
     fn send(&self) -> Result<Response, RequestError>;
 }
 
+/// Trait to convert headers to a string
 trait HeadersToString {
     fn headers_to_string(&self) -> String;
 }
@@ -31,6 +35,7 @@ impl HeadersToString for HashMap<String, String> {
     }
 }
 
+/// The request type
 #[derive(Clone, Debug)]
 pub struct Request {
     pub method: String,
@@ -47,6 +52,7 @@ impl Request {
         RequestError::new(format!("RequestError: {}", message))
     }
 
+    /// Send the request asynchronously, returning a future
     pub fn async_send(&self) -> impl Future<Output = Result<Response, RequestError>> + '_ {
         async move {
             self.send()
@@ -54,6 +60,7 @@ impl Request {
     }
 }
 
+/// Implement the ValidRequest trait for the Request type
 impl ValidRequest for Request {
     fn new(
         method: String,

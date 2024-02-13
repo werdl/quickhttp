@@ -2,10 +2,15 @@
 name = "quickhttp"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "A simple HTTP client"
+readme = "README.md"
+repository = "https://github.com/werdl/quickhttp"
+documentation = "https://docs.rs/quickhttp"
+homepage = "https://github.com/werdl/quickhttp"
+keywords = ["http", "client", "async", "tcp", "networking"]
+categories = ["network-programming", "asynchronous", "http-client"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-
-[dev-dependencies]
-tokio = { version = "1", features = ["full"] }

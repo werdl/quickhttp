@@ -1,7 +1,9 @@
+/// Trait defining the error type for the library
 pub trait Error {
     fn new(message: String) -> Self;
 }
 
+/// Error type for a builder (for example, if a required field is missing)
 #[derive(Clone, Debug)]
 pub struct BuilderError {
     pub(crate) message: String,
@@ -13,6 +15,7 @@ impl Error for BuilderError {
     }
 }
 
+/// Error type for a request (for example, if the request fails)
 #[derive(Clone, Debug)]
 pub struct RequestError {
     pub(crate) message: String,
@@ -24,6 +27,7 @@ impl Error for RequestError {
     }
 }
 
+/// Error type for a response (for example, if the response is invalid)
 #[derive(Clone, Debug)]
 pub struct ResponseError {
     pub(crate) message: String,
