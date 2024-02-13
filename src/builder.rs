@@ -69,7 +69,7 @@ impl ValidBuilder for Builder {
             host: None,
             port: Some(80),
             http_version: Some("1.1".to_string()),
-            method: None,
+            method: Some("GET".to_string()),
             path: None,
             headers: headers,
             body: None,

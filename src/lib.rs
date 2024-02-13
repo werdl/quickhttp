@@ -35,20 +35,15 @@ mod tests {
 
     #[test]
     fn test_builder() {
-        let builder = Builder::new()
-            .uri("http://httpbin.org/post?name=bob".to_string())
-            .method("POST".to_string())
-            .body("name=John".to_string())
-            .header(
-                "Content-Type".to_string(),
-                "application/x-www-form-urlencoded".to_string(),
-            )
-            .build();
-
-        let ok_builder = builder.unwrap();
-        let response = ok_builder.send();
+        let res = Builder::new()
+            .uri("http://httpbin.org/ip".to_string())
+            .method("GET".to_string())
+            .build()
+            .unwrap()
+            .send()
+            .unwrap();
 
 
-        println!("{:?}", response);
+        println!("{:?}", res.body);
     }
 }
