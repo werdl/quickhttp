@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::future::Future;
+use std::net::ToSocketAddrs;
 use std::{io::{Read, Write}, net::TcpStream};
 use crate::StatusCode;
 use crate::{errors::{Error, RequestError}, response::Response};
@@ -84,8 +85,21 @@ impl ValidRequest for Request {
 
     fn send(&self) -> Result<Response, RequestError> {
         // no propagation of errors, just return a new error using self.fail and the match statement
+        
+        // connect to server, with 5s timeout, handle errors
 
-        let stream = TcpStream::connect(format!("{}:{}", self.host, self.port));
+        let addr = format!("{}:{}", self.host, self.port).to_socket_addrs();
+
+        let addr = match addr {
+            Ok(mut addr) => match addr.next() {
+                Some(addr) => addr,
+                None => return Err(self.fail("could not resolve address")),
+            },
+            Err(_) => return Err(self.fail("could not resolve address")),
+        };
+
+        let stream = TcpStream::connect_timeout(&addr, std::time::Duration::from_secs(5));
+
         let mut stream = match stream {
             Ok(stream) => stream,
             Err(_) => return Err(self.fail("could not connect to server")),
